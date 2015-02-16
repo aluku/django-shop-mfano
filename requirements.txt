@@ -1,0 +1,7 @@
+Django==1.6.2
+django-classy-tags==0.6.1
+django-polymorphic==0.6.1
+django-shop==0.2.0
+jsonfield==1.0.1
+Pillow==2.7.0
+South==1.0.2
