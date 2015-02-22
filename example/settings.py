@@ -24,8 +24,16 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),)
+# TEMPLATE_DIRS = (('E:\\VE\\mido-env\\example\\myshop\\templates').replace('\\','/'),)
 
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+    'apptemplates.Loader',
+)
+
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -36,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.admin',
     'django.contrib.admindocs',
     'polymorphic',
     'south',
@@ -76,7 +83,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'en-uk'
+LANGUAGE_CODE = 'en-gb'
 
 TIME_ZONE = 'UTC+3'
 

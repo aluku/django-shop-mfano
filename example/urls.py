@@ -11,5 +11,6 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^shop/', include('myshop.urls', namespace="shop")),
     (r'^shop/', include(shop_urls)),
 )
