@@ -1,0 +1,22 @@
+{% extends "base_carousel.html" %}
+{% block title %} Product List {% endblock %}
+{% block content %}
+	<div class="container">
+		<ol class="breadcrumb">
+			<li><a href="{% url 'shee:product_list' %}">Home</a></li>
+			<li class="active">{{ object.category.catalog }}</li>
+		</ol>
+		<div class="row">
+			{% for object in object_list %}
+				<div class="col-xs-12 col-sm-6 col-md-3">
+					<div class="thumbnail">
+						<img class="img-responsive" src="{{ object.photo.url }}" />
+						<h3><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></h3> 
+						<p>{{ object.description | capfirst }}</p>
+						<p><a class="btn btn-info" href="{{ object.get_absolute_url }}">View details &raquo;</a></p>
+					</div>
+				</div>
+			{% endfor %}
+		</div><!-- /.row -->
+	</div>
+{% endblock %}

@@ -17,12 +17,12 @@ class ProductDetail(DetailView):
 		self.product = get_object_or_404(Product, slug=self.kwargs[0])
 		return Product.object.filter(slug=self.slug)
 	'''
-	template_name = "shop/product_detail.html"
+	template_name = "product_detail.html"
 	model = Product
 	slug = 'slug'
 
 class CatalogProducts(ListView):
-    template_name = "shop/catalog_products.html"
+    template_name = "catalog_products.html"
     model = Product
     paginate_by = 12
 	
@@ -32,9 +32,10 @@ class CatalogProducts(ListView):
         return queryset
 
 class NewProducts(ListView):
-    template_name = "shop/welcome.html"
+    template_name = "welcome.html"
     model = Product.objects.order_by('-date_added')
     paginate_by = 6
+
 '''
     def get_queryset(self):
         self.catalog_id = self.kwargs.get('catalog_id', None)

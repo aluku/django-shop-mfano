@@ -1,0 +1,49 @@
+{% extends "shee/base_carousel.html" %}
+{% block title %} Catalog Products {% endblock %}
+{% block content %}
+	
+	
+	
+		<div class="container">
+			{% for object in object_list %}
+			{%if forloop.first %}
+			<ol class="breadcrumb">
+				<li><a href="{% url 'shee:product_list' %}">Home</a></li>
+				<li class="active">{{ object.category.catalog }}</li>
+			</ol>
+			<h2>A list of {{ object.category.catalog }}</h2>
+			<div class="row">
+			{% endif %}
+					<div class="col-xs-12 col-sm-6 col-md-3">
+						<div class="thumbnail">
+							<img class="img-responsive" src="{{ object.photo.url }}" />
+							<h3><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></h3> 
+							<p>{{ object.description | capfirst }}</p>
+							<p><a class="btn btn-info" href="{{ object.get_absolute_url }}">View details &raquo;</a></p>
+						</div>
+					</div>
+		{% empty %}
+			<h2>Sorry, no items for this catalog available</h2>
+	{% endfor %}					
+			</div><!-- /.row -->
+		</div>
+
+
+	<div class="container">	
+		<div class="pagination pagination-sm">
+			<span class="step-links">
+				{% if page_obj.has_previous %}
+					<a href="?page={{ page_obj.previous_page_number }}">previous</a>
+				{% endif %}
+
+				<span class="current">
+					Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+				</span>
+
+				{% if page_obj.has_next %}
+					<a href="?page={{ page_obj.next_page_number }}">next</a>
+				{% endif %}
+			</span>
+		</div>
+	</div>
+{% endblock %}
