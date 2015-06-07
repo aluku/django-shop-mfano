@@ -1,6 +1,8 @@
 from datetime import datetime
 from shop.models import Product
 from django.db import models
+from django.contrib.auth.models import User
+from allauth.account.models import EmailAddress
 
 # Create your models here.
 class Item(Product):
@@ -45,7 +47,9 @@ class CatalogCategory(models.Model):
         return u'%s: %s' % (self.catalog.name, self.name)
 		
     class Meta:
-	    ordering = ["catalog"]
+        ordering = ["catalog"]
+        verbose_name = "Catalog Category"
+        verbose_name_plural = "Catalog Categories"
 
 class ItemDetail(models.Model):
     item = models.ForeignKey('Item', related_name='details')
@@ -54,7 +58,7 @@ class ItemDetail(models.Model):
     description = models.TextField(blank=True)
 
     def __unicode__(self):
-        return u'%s: %s' % (self.product, self.attribute)
+        return u'%s: %s' % (self.item, self.attribute)
 
 class ItemAttribute(models.Model):
     name = models.CharField(max_length=300)
@@ -62,3 +66,21 @@ class ItemAttribute(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.name
+ 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, related_name='profile')
+ 
+    def __unicode__(self):
+        return "{}'s profile".format(self.user.username)
+ 
+    class Meta:
+        db_table = 'user_profile'
+ 
+    def account_verified(self):
+        if self.user.is_authenticated:
+            result = EmailAddress.objects.filter(email=self.user.email)
+            if len(result):
+                return result[0].verified
+        return False
+ 
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])

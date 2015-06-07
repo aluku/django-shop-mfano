@@ -10,7 +10,9 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    (r'^accounts/logout/$', 'django.contrib.auth.views.logout',{'next_page': 'welcome'}),
+    (r'^accounts/', include('allauth.urls')),
     url(r'^shop/', include('myshop.urls', namespace="shop")),
-    (r'^shop/', include(shop_urls)),
+    url(r'^shop/', include(shop_urls)),
 )

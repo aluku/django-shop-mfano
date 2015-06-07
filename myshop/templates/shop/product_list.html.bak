@@ -1,14 +1,14 @@
 {% extends "shop/base.html" %}
 {% load url from future %}
 
-{% block title %} Product List {% endblock %}
-{% block body %}
+{% block head_title %} Product List {% endblock %}
+{% block content %}
   <h1>Product list:</h1>
   <hr />
 
 	<div class="container">
 		<ol class="breadcrumb">
-		  <li class="active">Home</li>
+		  <li class="active"><a href="{% url 'shop_welcome' %}">Home</a> / Product List</li>
 		</ol>
 		<div class="row">
 			{% for object in object_list %}
@@ -17,7 +17,13 @@
 						<img class="img-responsive" src="{{ object.photo.url }}" />
 						<h3><a href="{% url 'product_detail' object.slug %}">{{object.get_name}}</a><br /></h3> 
 						<p>{{ object.description | capfirst }}</p>
-						<p><a class="btn btn-info" href="{% url 'product_detail' object.slug %}">View details &raquo;</a></p>
+						<p><a class="btn btn-info" href="{% url 'product_detail' object.slug %}">View details &raquo;</a>
+							<form method="post" action="{% url 'cart' %}">{% csrf_token %}
+								<input type="hidden" name="add_item_id" value="{{object.pk}}">
+								<input type="hidden" name="add_item_quantity" value="1">
+								<input type="submit" class="btn btn-info" value="Add to cart">
+							</form>
+						</p>
 					</div>
 				</div><!-- /.span4 -->
 			{% endfor %}
@@ -39,5 +45,4 @@
 			{% endif %}
 		</span>
 	</div>
-  {% endfor %}
 {% endblock %}

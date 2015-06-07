@@ -1,11 +1,39 @@
 {% extends "shop/base.html" %}
-{% block title %} Welcome to shee beautilicious {% endblock %}
+{% block head_title %} Welcome to shee beautilicious {% endblock %}
 {% load url from future %}
 
-{% block body %}
+{% block content %}
   {% load i18n %}
   <h1>Welcome to django SHOP for midreich</h1>
 
+	<div class="container">
+		<div class="row">
+			{% for object in object_list %}
+				<div class="col-xs-12 col-sm-6 col-md-3">
+					<div class="thumbnail">
+						<img class="img-responsive" src="{{ object.photo.url }}" />
+						<h3><a href="{% url 'product_detail' object.slug %}">{{object.get_name}}</a><br /></h3> 
+						<p>{{ object.description | capfirst }}</p>
+						<p><a class="btn btn-info" href="{% url 'product_detail' object.slug %}">View details &raquo;</a></p>
+					</div>
+				</div><!-- /.span4 -->
+			{% endfor %}
+		</div><!-- /.row -->
+	<div/>
+
+	<div class="pagination pagination-sm">
+		<span class="step-links">
+			{% if page_obj.has_previous %}
+				<a href="?page={{ page_obj.previous_page_number }}">previous</a>
+			{% endif %}
+
+			{% if page_obj.has_next %}
+				<a href="?page={{ page_obj.next_page_number }}">next</a>
+			{% endif %}
+		</span>
+	</div>
+
+  <br/>
   <a href="{% url 'product_list' %}">Product list</a><br />
   <a href="{% url 'cart' %}">Your cart</a><br />
 
