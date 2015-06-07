@@ -1,0 +1,43 @@
+{% extends "shop/base.html" %}
+{% load url from future %}
+
+{% block head_title %} My Search{% if query %} Results{% endif %} {% endblock %}
+{% block content <h1>Search Results:</h1>
+  <hr />
+
+	<div class="container">
+		<ol class="b	mb">
+			<li class="active"><a href="{% url 'shop_welcome' %}">Home</a> / Search{% if query %} Results{% endif %}</li>
+		</ol>
+		<div class="row">
+			{% if query %}
+				<h2>Results for "{{ query|escape }}":</h2>
+				{% if results %}
+				<ul>
+					{% for item in results %}
+						<li>{{ item|escape }}</l1>
+					{% endfor %}
+				</ul>
+				{% else %}
+					<p>No items found. Please refine your search</p>
+				{% endif %}
+			{% endif %}
+		</div><!-- /.row -->
+	</div>
+
+	<div class="pagination pagination-sm">
+		<span class="step-links">
+			{% if page_obj.has_previous %}
+				<a href="?page={{ page_obj.previous_page_number }}">previous</a>
+			{% endif %}
+
+			<span class="current">
+				Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+			</span>
+
+			{% if page_obj.has_next %}
+				<a href="?page={{ page_obj.next_page_number }}">next</a>
+			{% endif %}
+		</span>
+	</div>
+{% endblock %}

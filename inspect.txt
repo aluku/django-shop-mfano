@@ -1,0 +1,349 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Remove `managed = False` lines for those models you wish to give write DB access
+# Feel free to rename the models, but don't rename db_table values or field names.
+#
+# Also note: You'll have to insert the output of 'django-admin.py sqlcustom [appname]'
+# into your database.
+from __future__ import unicode_literals
+
+from django.db import models
+
+class AccountEmailaddress(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey('AuthUser')
+    email = models.CharField(unique=True, max_length=75)
+    verified = models.BooleanField()
+    primary = models.BooleanField()
+    class Meta:
+        managed = False
+        db_table = 'account_emailaddress'
+
+class AccountEmailconfirmation(models.Model):
+    id = models.IntegerField(primary_key=True)
+    email_address = models.ForeignKey(AccountEmailaddress)
+    created = models.DateTimeField()
+    sent = models.DateTimeField(blank=True, null=True)
+    key = models.CharField(unique=True, max_length=64)
+    class Meta:
+        managed = False
+        db_table = 'account_emailconfirmation'
+
+class AddressmodelAddress(models.Model):
+    city = models.CharField(max_length=20)
+    name = models.CharField(max_length=255)
+    address2 = models.CharField(max_length=255)
+    country_id = models.IntegerField(blank=True, null=True)
+    state = models.CharField(max_length=255)
+    user_billing_id = models.IntegerField(unique=True, blank=True, null=True)
+    user_shipping_id = models.IntegerField(unique=True, blank=True, null=True)
+    address = models.CharField(max_length=255)
+    id = models.IntegerField(primary_key=True, blank=True, null=True)
+    zip_code = models.CharField(max_length=20)
+    class Meta:
+        managed = False
+        db_table = 'addressmodel_address'
+
+class AddressmodelCountry(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=255)
+    class Meta:
+        managed = False
+        db_table = 'addressmodel_country'
+
+class AuthGroup(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(unique=True, max_length=80)
+    class Meta:
+        managed = False
+        db_table = 'auth_group'
+
+class AuthGroupPermissions(models.Model):
+    id = models.IntegerField(primary_key=True)
+    group_id = models.IntegerField()
+    permission = models.ForeignKey('AuthPermission')
+    class Meta:
+        managed = False
+        db_table = 'auth_group_permissions'
+
+class AuthPermission(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50)
+    content_type_id = models.IntegerField()
+    codename = models.CharField(max_length=100)
+    class Meta:
+        managed = False
+        db_table = 'auth_permission'
+
+class AuthUser(models.Model):
+    id = models.IntegerField(primary_key=True)
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField()
+    is_superuser = models.BooleanField()
+    username = models.CharField(unique=True, max_length=30)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.CharField(max_length=75)
+    is_staff = models.BooleanField()
+    is_active = models.BooleanField()
+    date_joined = models.DateTimeField()
+    class Meta:
+        managed = False
+        db_table = 'auth_user'
+
+class AuthUserGroups(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user_id = models.IntegerField()
+    group = models.ForeignKey(AuthGroup)
+    class Meta:
+        managed = False
+        db_table = 'auth_user_groups'
+
+class AuthUserUserPermissions(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user_id = models.IntegerField()
+    permission = models.ForeignKey(AuthPermission)
+    class Meta:
+        managed = False
+        db_table = 'auth_user_user_permissions'
+
+class DjangoAdminLog(models.Model):
+    id = models.IntegerField(primary_key=True)
+    action_time = models.DateTimeField()
+    user_id = models.IntegerField()
+    content_type_id = models.IntegerField(blank=True, null=True)
+    object_id = models.TextField(blank=True)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.PositiveSmallIntegerField()
+    change_message = models.TextField()
+    class Meta:
+        managed = False
+        db_table = 'django_admin_log'
+
+class DjangoContentType(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100)
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+    class Meta:
+        managed = False
+        db_table = 'django_content_type'
+
+class DjangoSession(models.Model):
+    session_key = models.CharField(unique=True, max_length=40)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+    class Meta:
+        managed = False
+        db_table = 'django_session'
+
+class DjangoSite(models.Model):
+    id = models.IntegerField(primary_key=True)
+    domain = models.CharField(max_length=100)
+    name = models.CharField(max_length=50)
+    class Meta:
+        managed = False
+        db_table = 'django_site'
+
+class MyshopCatalog(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=300)
+    slug = models.CharField(unique=True, max_length=150)
+    publisher = models.CharField(max_length=300)
+    description = models.TextField()
+    pub_date = models.DateTimeField()
+    class Meta:
+        managed = False
+        db_table = 'myshop_catalog'
+
+class MyshopCatalogcategory(models.Model):
+    id = models.IntegerField(primary_key=True)
+    catalog = models.ForeignKey(MyshopCatalog)
+    parent = models.ForeignKey('self', blank=True, null=True)
+    name = models.CharField(max_length=300)
+    slug = models.CharField(max_length=150)
+    description = models.TextField()
+    class Meta:
+        managed = False
+        db_table = 'myshop_catalogcategory'
+
+class MyshopItem(models.Model):
+    product_ptr_id = models.IntegerField(primary_key=True)
+    category_id = models.IntegerField()
+    description = models.TextField()
+    photo = models.CharField(max_length=100)
+    manufacturer = models.CharField(max_length=300)
+    class Meta:
+        managed = False
+        db_table = 'myshop_item'
+
+class MyshopItemattribute(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=300)
+    description = models.TextField()
+    class Meta:
+        managed = False
+        db_table = 'myshop_itemattribute'
+
+class MyshopItemdetail(models.Model):
+    id = models.IntegerField(primary_key=True)
+    item = models.ForeignKey(MyshopItem)
+    attribute_id = models.IntegerField()
+    value = models.CharField(max_length=500)
+    description = models.TextField()
+    class Meta:
+        managed = False
+        db_table = 'myshop_itemdetail'
+
+class ShopCart(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user_id = models.IntegerField(unique=True, blank=True, null=True)
+    date_created = models.DateTimeField()
+    last_updated = models.DateTimeField()
+    class Meta:
+        managed = False
+        db_table = 'shop_cart'
+
+class ShopCartitem(models.Model):
+    id = models.IntegerField(primary_key=True)
+    cart_id = models.IntegerField()
+    quantity = models.IntegerField()
+    product_id = models.IntegerField()
+    class Meta:
+        managed = False
+        db_table = 'shop_cartitem'
+
+class ShopExtraorderitempricefield(models.Model):
+    label = models.CharField(max_length=255)
+    data = models.TextField(blank=True)
+    id = models.IntegerField(primary_key=True, blank=True, null=True)
+    value = models.DecimalField(max_digits=10, decimal_places=5) # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    order_item_id = models.IntegerField()
+    class Meta:
+        managed = False
+        db_table = 'shop_extraorderitempricefield'
+
+class ShopExtraorderpricefield(models.Model):
+    order_id = models.IntegerField()
+    value = models.DecimalField(max_digits=10, decimal_places=5) # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    label = models.CharField(max_length=255)
+    is_shipping = models.BooleanField()
+    data = models.TextField(blank=True)
+    id = models.IntegerField(primary_key=True, blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'shop_extraorderpricefield'
+
+class ShopOrder(models.Model):
+    status = models.IntegerField()
+    order_total = models.DecimalField(max_digits=10, decimal_places=5) # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    created = models.DateTimeField()
+    modified = models.DateTimeField()
+    order_subtotal = models.DecimalField(max_digits=10, decimal_places=5) # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    billing_address_text = models.TextField(blank=True)
+    cart_pk = models.PositiveIntegerField(blank=True, null=True)
+    user_id = models.IntegerField(blank=True, null=True)
+    shipping_address_text = models.TextField(blank=True)
+    id = models.IntegerField(primary_key=True, blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'shop_order'
+
+class ShopOrderextrainfo(models.Model):
+    id = models.IntegerField(primary_key=True)
+    order_id = models.IntegerField()
+    text = models.TextField()
+    class Meta:
+        managed = False
+        db_table = 'shop_orderextrainfo'
+
+class ShopOrderitem(models.Model):
+    product_id = models.IntegerField(blank=True, null=True)
+    line_total = models.DecimalField(max_digits=10, decimal_places=5) # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    order_id = models.IntegerField()
+    unit_price = models.DecimalField(max_digits=10, decimal_places=5) # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    product_name = models.CharField(max_length=255, blank=True)
+    product_reference = models.CharField(max_length=255)
+    line_subtotal = models.DecimalField(max_digits=10, decimal_places=5) # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    id = models.IntegerField(primary_key=True, blank=True, null=True)
+    quantity = models.IntegerField()
+    class Meta:
+        managed = False
+        db_table = 'shop_orderitem'
+
+class ShopOrderpayment(models.Model):
+    order_id = models.IntegerField()
+    payment_method = models.CharField(max_length=255)
+    amount = models.DecimalField(max_digits=10, decimal_places=5) # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    id = models.IntegerField(primary_key=True, blank=True, null=True)
+    transaction_id = models.CharField(max_length=255)
+    class Meta:
+        managed = False
+        db_table = 'shop_orderpayment'
+
+class ShopProduct(models.Model):
+    name = models.CharField(max_length=255)
+    unit_price = models.DecimalField(max_digits=10, decimal_places=5) # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    id = models.IntegerField(primary_key=True, blank=True, null=True)
+    polymorphic_ctype_id = models.IntegerField(blank=True, null=True)
+    last_modified = models.DateTimeField()
+    active = models.BooleanField()
+    date_added = models.DateTimeField()
+    slug = models.CharField(max_length=50)
+    class Meta:
+        managed = False
+        db_table = 'shop_product'
+
+class SocialaccountSocialaccount(models.Model):
+    user_id = models.IntegerField()
+    uid = models.CharField(max_length=255)
+    last_login = models.DateTimeField()
+    provider = models.CharField(max_length=30)
+    extra_data = models.TextField()
+    id = models.IntegerField(primary_key=True, blank=True, null=True)
+    date_joined = models.DateTimeField()
+    class Meta:
+        managed = False
+        db_table = 'socialaccount_socialaccount'
+
+class SocialaccountSocialapp(models.Model):
+    key = models.CharField(max_length=100)
+    secret = models.CharField(max_length=100)
+    client_id = models.CharField(max_length=100)
+    provider = models.CharField(max_length=30)
+    id = models.IntegerField(primary_key=True, blank=True, null=True)
+    name = models.CharField(max_length=40)
+    class Meta:
+        managed = False
+        db_table = 'socialaccount_socialapp'
+
+class SocialaccountSocialappSites(models.Model):
+    id = models.IntegerField(primary_key=True)
+    socialapp_id = models.IntegerField()
+    site_id = models.IntegerField()
+    class Meta:
+        managed = False
+        db_table = 'socialaccount_socialapp_sites'
+
+class SocialaccountSocialtoken(models.Model):
+    account_id = models.IntegerField()
+    app_id = models.IntegerField()
+    expires_at = models.DateTimeField(blank=True, null=True)
+    token = models.TextField()
+    id = models.IntegerField(primary_key=True, blank=True, null=True)
+    token_secret = models.TextField()
+    class Meta:
+        managed = False
+        db_table = 'socialaccount_socialtoken'
+
+class SouthMigrationhistory(models.Model):
+    id = models.IntegerField(primary_key=True)
+    app_name = models.CharField(max_length=255)
+    migration = models.CharField(max_length=255)
+    applied = models.DateTimeField()
+    class Meta:
+        managed = False
+        db_table = 'south_migrationhistory'
+
